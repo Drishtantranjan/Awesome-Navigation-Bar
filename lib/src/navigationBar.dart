@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AwesomeNavigationBar extends StatefulWidget {
   final int currentIndex;
   final Function(int) onTap;
+  final List<String> sheetNames;
 
   const AwesomeNavigationBar({
     Key? key,
     required this.currentIndex,
     required this.onTap,
+    required this.sheetNames,
   }) : super(key: key);
 
   @override
@@ -16,8 +17,30 @@ class AwesomeNavigationBar extends StatefulWidget {
 }
 
 class _AwesomeNavigationBarState extends State<AwesomeNavigationBar> {
+  late double iconSize;
+
+  final List<String> mainIconPaths = [
+    "assets/home/ic_home.png",
+    "assets/home/ic_template.png",
+    "assets/home/ic_resume.png",
+    "assets/home/ic_saved.png",
+  ];
+
+  final List<String> changedIconPaths = [
+    "assets/home/ic_homeAct.gif",
+    "assets/home/ic_templateAct.gif",
+    "assets/home/ic_resumeAct.gif",
+    "assets/home/ic_savedAct.gif",
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    iconSize = 24;
     return Theme(
       data: Theme.of(context).copyWith(
         splashColor: Colors.transparent,
@@ -25,7 +48,7 @@ class _AwesomeNavigationBarState extends State<AwesomeNavigationBar> {
         hoverColor: Colors.transparent,
       ),
       child: BottomNavigationBarTheme(
-        data: BottomNavigationBarThemeData(
+        data: const BottomNavigationBarThemeData(
           selectedIconTheme: IconThemeData(color: Colors.black),
         ),
         child: BottomNavigationBar(
@@ -42,81 +65,30 @@ class _AwesomeNavigationBarState extends State<AwesomeNavigationBar> {
             color: Colors.black,
           ),
           items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/ic_home.svg',
-                package: 'awesome_navigation_bar',
-                height: 20,
-                width: 20,
-              ),
-              label: 'Home',
-              activeIcon: Image.asset(
-                'assets/home/ic_homeAct.gif',
-                package: 'awesome_navigation_bar',
-                height: 24,
-                width: 24,
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/home/ic_template.png',
-                package: 'awesome_navigation_bar',
-                height: 24,
-                width: 24,
-              ),
-              label: 'Template',
-              activeIcon: Image.asset(
-                'assets/home/ic_templateAct.gif',
-                package: 'awesome_navigation_bar',
-                height: 24,
-                width: 24,
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/home/ic_top.png',
-                package: 'awesome_navigation_bar',
-                height: 24,
-                width: 24,
-              ),
-              label: 'Trending',
-              activeIcon: Image.asset(
-                'assets/home/ic_topAct.gif',
-                height: 24,
-                width: 24,
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/home/ic_resume.png',
-                package: 'awesome_navigation_bar',
-                height: 24,
-                width: 24,
-              ),
-              label: 'Documents',
-              activeIcon: Image.asset(
-                'assets/home/ic_resumeAct.gif',
-                package: 'awesome_navigation_bar',
-                height: 24, // Adjust the height as needed
-                width: 24, // Adjust the width as needed
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/home/ic_saved.png',
-                package: 'awesome_navigation_bar',
-                height: 24, // Adjust the height as needed
-                width: 24, // Adjust the width as needed
-              ),
-              label: 'Bookmarks',
-              activeIcon: Image.asset(
-                'assets/home/ic_savedAct.gif',
-                height: 24, // Adjust the height as needed
-                width: 24, // Adjust the width as needed
-              ),
-            ),
+            for (int i = 0; i < 4; i++)
+              buildBottomNavBarItem(
+                  icon: mainIconPaths[i],
+                  label: widget.sheetNames[i],
+                  gifPath: changedIconPaths[i]),
           ],
         ),
+      ),
+    );
+  }
+
+  BottomNavigationBarItem buildBottomNavBarItem(
+      {required String icon, required String label, required String gifPath}) {
+    return BottomNavigationBarItem(
+      icon: Image.asset(
+        icon,
+        height: iconSize,
+        width: iconSize,
+      ),
+      label: label,
+      activeIcon: Image.asset(
+        gifPath,
+        height: iconSize,
+        width: iconSize,
       ),
     );
   }
