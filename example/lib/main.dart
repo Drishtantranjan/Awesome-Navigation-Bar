@@ -56,6 +56,13 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: AwesomeNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onNavigationBarItemTapped,
+        sheetNames: const [
+          "Sheet-1",
+          "Sheet-1",
+          "Sheet-1"
+              "Sheet-4",
+          "Sheet-5"
+        ],
       ),
     );
   }
